@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bfvmq1lnwrbmb"
+path="res://.godot/imported/Red Operation.mp3-901de69549ddaee56e65f48a37dceee4.mp3str"
+
+[deps]
+
+source_file="res://music/Red Operation.mp3"
+dest_files=["res://.godot/imported/Red Operation.mp3-901de69549ddaee56e65f48a37dceee4.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

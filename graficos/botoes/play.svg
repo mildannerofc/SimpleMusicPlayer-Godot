@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="22.750048339366913" height="30.69875019788742" viewBox="0.7361251413822174 0.9431251585483551 22.750048339366913 30.69875019788742">
+  <defs>
+    <radialGradient id="grad_1" cx="0.2329" cy="0.5267000000000001" r="0.99723">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="grad_2" cx="0.0795" cy="0.9151" r="1.19665">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="1"/>
+    </radialGradient>
+  <radialGradient id="grad_1-.5481927990913391,0,0,0.5481927990913391,-124.8,-95.95" cx="7.0596" cy="17.0097" r="23.1652" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="1"/>
+    </radialGradient><radialGradient id="grad_2-.5481927990913391,0,0,0.5481927990913391,-124.8,-95.95" cx="4.1584" cy="27.4427" r="27.7977" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="1"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="1"/>
+    </radialGradient></defs>
+  <!-- Exported by Scratch - http://scratch.mit.edu/ -->
+  <path id="ID0.7585882665589452" fill="url(#grad_1-.5481927990913391,0,0,0.5481927990913391,-124.8,-95.95)" stroke="url(#grad_2-.5481927990913391,0,0,0.5481927990913391,-124.8,-95.95)" stroke-width="3.837349593639374" stroke-linecap="round" d="M 2.6548 2.8618 L 21.5675 16.0184 L 2.6548 29.7232 L 2.6548 2.8618 Z " style="stroke-linejoin: round; stroke-linecap: round;"/>
+</svg>

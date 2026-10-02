@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://bmfy61560evnp"
+path="res://.godot/imported/Google Doodle - Champion Island Theme YM2612 Cover.ogg-af3208a7aa97cde2b10ae0cec1c98eea.oggvorbisstr"
+
+[deps]
+
+source_file="res://music/Google Doodle - Champion Island Theme YM2612 Cover.ogg"
+dest_files=["res://.godot/imported/Google Doodle - Champion Island Theme YM2612 Cover.ogg-af3208a7aa97cde2b10ae0cec1c98eea.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

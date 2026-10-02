@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://see6hjtggw0n"]
+
+[ext_resource type="Texture2D" uid="uid://6mp7cdiwgnab" path="res://musplay/darktheme.svg" id="1_4chxo"]
+[ext_resource type="Texture2D" uid="uid://bkdw75v6uu4ko" path="res://musplay/blackfadein.png" id="2_eq324"]
+[ext_resource type="Script" uid="uid://dlpdrn0jltju6" path="res://simplemusplay.gd" id="2_pp0y6"]
+[ext_resource type="Script" uid="uid://biy1h2gids322" path="res://blackfadein.gd" id="3_bg45s"]
+[ext_resource type="Texture2D" uid="uid://cn4gd74js20t8" path="res://claudio/Claudio2.svg" id="4_bg45s"]
+[ext_resource type="Script" uid="uid://lvnwvld4rwek" path="res://claudio.gd" id="5_upqjc"]
+[ext_resource type="Texture2D" uid="uid://3eirh7h2x4oj" path="res://TEXTO.svg" id="6_seb6f"]
+[ext_resource type="Script" uid="uid://b3ddxuwn45rgn" path="res://texto.gd" id="7_pp0y6"]
+[ext_resource type="Script" uid="uid://covgyb26gp67v" path="res://number_snd.gd" id="9_bb0ag"]
+[ext_resource type="Script" uid="uid://dasn45ad5wh44" path="res://esquerda.gd" id="11_av7xe"]
+[ext_resource type="Script" uid="uid://0pw2hxrgdxxw" path="res://direita.gd" id="12_av7xe"]
+[ext_resource type="Texture2D" uid="uid://545lhh3to004" path="res://graficos/music/fantasia1.svg" id="20_music"]
+[ext_resource type="Script" uid="uid://omqpikn3r2fy" path="res://music.gd" id="21_music"]
+[ext_resource type="Texture2D" uid="uid://clilvom0h4s1q" path="res://graficos/botoes/play.svg" id="22_play"]
+[ext_resource type="Script" uid="uid://b0l3pk80cbdf" path="res://play.gd" id="23_play"]
+[ext_resource type="Texture2D" uid="uid://7lx4vejopgfa" path="res://graficos/botoes/stop.svg" id="24_stop"]
+[ext_resource type="Script" uid="uid://b2frxn3mtw2mx" path="res://stop.gd" id="25_stop"]
+[ext_resource type="Texture2D" uid="uid://bhywibmhequpb" path="res://graficos/botoes/loop_desligado.svg" id="26_loop"]
+[ext_resource type="Script" uid="uid://7ug431bsbkp3" path="res://loop.gd" id="27_loop"]
+[ext_resource type="Script" uid="uid://2pa6ml0c83nr" path="res://music_name.gd" id="28_name"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_nenkm"]
+load_path = "res://.godot/imported/right.svg-0ee792612fb935dbbee1e5a8c46a851b.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_eulgu"]
+load_path = "res://.godot/imported/left.svg-df1d5866107d5b8fb4eecad070f615bd.ctex"
+
+[node name="Cenário" type="Sprite2D" unique_id=1627087206]
+position = Vector2(576, 324)
+scale = Vector2(1.7, 1.7)
+texture = ExtResource("1_4chxo")
+script = ExtResource("2_pp0y6")
+
+[node name="Texto" type="Sprite2D" parent="." unique_id=502324805]
+position = Vector2(-9.55, -140.88)
+scale = Vector2(0.6009, 0.6009)
+texture = ExtResource("6_seb6f")
+script = ExtResource("7_pp0y6")
+
+[node name="Music" type="Sprite2D" parent="." unique_id=903906706]
+position = Vector2(18, -9)
+texture = ExtResource("20_music")
+offset = Vector2(-206.5, 141.86)
+script = ExtResource("21_music")
+
+[node name="Play" type="Sprite2D" parent="." unique_id=823248424]
+position = Vector2(-6, 47)
+texture = ExtResource("22_play")
+offset = Vector2(2.11, 4.29)
+script = ExtResource("23_play")
+
+[node name="Stop" type="Sprite2D" parent="." unique_id=1871620970]
+position = Vector2(59, 47)
+texture = ExtResource("24_stop")
+offset = Vector2(0.52, 3.95)
+script = ExtResource("25_stop")
+
+[node name="MusicName" type="Label" parent="." unique_id=825648567]
+offset_left = -135.59
+offset_top = 120.28
+offset_right = 307.64713
+offset_bottom = 146.63
+text = "Title goes here..."
+script = ExtResource("28_name")
+
+[node name="Right" type="Sprite2D" parent="." unique_id=1831569854]
+position = Vector2(48, 8)
+texture = SubResource("CompressedTexture2D_nenkm")
+offset = Vector2(3.7, 4.89)
+script = ExtResource("12_av7xe")
+
+[node name="Left" type="Sprite2D" parent="." unique_id=490877845]
+position = Vector2(-68, 8)
+texture = SubResource("CompressedTexture2D_eulgu")
+offset = Vector2(3.65, 4.89)
+script = ExtResource("11_av7xe")
+
+[node name="Claudio2" type="Sprite2D" parent="." unique_id=1222561090]
+position = Vector2(162, 13)
+texture = ExtResource("4_bg45s")
+offset = Vector2(-0.77, -0.52)
+script = ExtResource("5_upqjc")
+
+[node name="Loop" type="Sprite2D" parent="." unique_id=663729440]
+position = Vector2(-73, 56)
+texture = ExtResource("26_loop")
+offset = Vector2(-2.85, -5.42)
+script = ExtResource("27_loop")
+
+[node name="Label" type="Label" parent="." unique_id=209243034]
+offset_left = -49.0
+offset_right = 31.0
+offset_bottom = 32.0
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("9_bb0ag")
+
+[node name="Blackfadein" type="Sprite2D" parent="." unique_id=177340619]
+visible = false
+z_index = 10
+texture = ExtResource("2_eq324")
+script = ExtResource("3_bg45s")

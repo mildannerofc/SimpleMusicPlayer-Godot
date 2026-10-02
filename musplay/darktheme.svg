@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   version="1.1"
+   width="884.932056617528"
+   height="854.8792612073718"
+   viewBox="-223.82126817692804 -255.93526659001398 884.932056617528 854.8792612073718"
+   id="svg4"
+   sodipodi:docname="darktheme.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview4"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     inkscape:zoom="0.94399294"
+     inkscape:cx="441.74059"
+     inkscape:cy="674.26352"
+     inkscape:window-width="1920"
+     inkscape:window-height="1009"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <defs
+     id="defs4">
+    <radialGradient
+       id="grad_1"
+       cx="0.6338"
+       cy="0.2095"
+       r="1.02765">
+      <stop
+         offset="0"
+         stop-color="#110058"
+         stop-opacity="1"
+         id="stop1" />
+      <stop
+         offset="1"
+         stop-color="#0E001F"
+         stop-opacity="1"
+         id="stop2" />
+    </radialGradient>
+    <radialGradient
+       id="grad_1-.272344708442688,0.6292547583580017,-0.7573222517967224,1.5312955379486084,49.6,-255.15"
+       cx="379.5606"
+       cy="51.7747"
+       r="684.7499"
+       gradientUnits="userSpaceOnUse">
+      <stop
+         offset="0"
+         stop-color="#110058"
+         stop-opacity="1"
+         id="stop3" />
+      <stop
+         offset="1"
+         stop-color="#0E001F"
+         stop-opacity="1"
+         id="stop4" />
+    </radialGradient>
+  </defs>
+  <!-- Exported by Scratch - http://scratch.mit.edu/ -->
+  <path
+     id="ID0.7777893347665668"
+     fill="url(#grad_1-.272344708442688,0.6292547583580017,-0.7573222517967224,1.5312955379486084,49.6,-255.15)"
+     stroke="none"
+     d="m -223.70713,-260.44665 885.09196,4.37058 2.78969,856.35343 -889.32918,-2.25192 z"
+     stroke-width="1.57055"
+     sodipodi:nodetypes="ccccc" />
+</svg>
+<!--rotationCenter:240:180-->
+

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cghi10e0n614g"
+path="res://.godot/imported/Genocide Night Reimagined.wav-e979a6e0fdb895a0cbf214712bb9f1ec.sample"
+
+[deps]
+
+source_file="res://music/Genocide Night Reimagined.wav"
+dest_files=["res://.godot/imported/Genocide Night Reimagined.wav-e979a6e0fdb895a0cbf214712bb9f1ec.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
