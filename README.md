@@ -19,7 +19,7 @@ Tem botões de play, stop, loop, troca de faixa (anterior/próxima), o nome da m
 1. Instale o [Godot 4.7](https://godotengine.org/download) (ou compatível).
 2. Clone o repositório:
    ```bash
-   git clone https://github.com/SEU_USUARIO/simple-music-player.git
+   git clone https://github.com/mildannerofc/simple-music-player.git
    ```
 3. Abra o Godot, clique em **Importar** e selecione o `project.godot`.
 4. Na primeira abertura o Godot importa os arquivos, o que leva alguns segundos.
