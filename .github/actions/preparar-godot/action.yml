@@ -1,0 +1,33 @@
+name: Preparar Godot
+description: Prepara o ambiente Godot para exportação (Web, Windows, Linux, Android)
+
+inputs:
+  android:
+    description: 'Se "true", prepara também o ambiente Android'
+    required: false
+    default: 'false'
+
+runs:
+  using: composite
+  steps:
+    - name: Criar diretórios necessários
+      shell: bash
+      run: |
+        mkdir -p ~/.godot
+        mkdir -p ~/.android
+
+    - name: Download export templates (Godot 4.7)
+      shell: bash
+      run: |
+        echo "Godot export templates já estão no docker image barichello/godot-ci"
+
+    - name: Setup Android SDK (se necessário)
+      if: inputs.android == 'true'
+      shell: bash
+      run: |
+        echo "Android SDK já está configurado no docker image barichello/godot-ci"
+
+    - name: Validar projeto Godot
+      shell: bash
+      run: |
+        ls -la project.godot || echo "⚠️  Aviso: arquivo project.godot não encontrado"
