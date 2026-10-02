@@ -1,4 +1,4 @@
-![Uploading image.png…]()
+<img width="1152" height="648" alt="image" src="https://github.com/user-attachments/assets/47c5fca1-43ec-4bc2-8a43-717a5067b86c" />
 
 # Simple Music Player
 Um player de música simples feito no **Godot 4.7**, portado de um projeto do PenguinMod/Scratch (`Simple_Music_Player.pmp`).
