@@ -1,0 +1,147 @@
+name: Exportar projeto
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+  workflow_dispatch:
+
+env:
+  # Mantenha igual à tag da imagem usada em "container.image" abaixo.
+  GODOT_VERSION: "4.7"
+  EXPORT_NAME: simple-music-player
+
+concurrency:
+  group: export-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  web:
+    name: Web (HTML5)
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-godot
+      - name: Exportar Web
+        run: |
+          mkdir -v -p build/web
+          godot --headless --verbose --path . --export-release "Web" "$(pwd)/build/web/index.html"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web
+          path: build/web
+
+  windows:
+    name: Windows
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-godot
+      - name: Exportar Windows
+        run: |
+          mkdir -v -p build/windows
+          godot --headless --verbose --path . --export-release "Windows Desktop" "$(pwd)/build/windows/${EXPORT_NAME}.exe"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: build/windows
+
+  linux:
+    name: Linux
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-godot
+      - name: Exportar Linux
+        run: |
+          mkdir -v -p build/linux
+          godot --headless --verbose --path . --export-release "Linux" "$(pwd)/build/linux/${EXPORT_NAME}.x86_64"
+          # tar.gz preserva a permissão de execução (o zip do upload-artifact perderia)
+          tar -C build/linux -czf "${EXPORT_NAME}-linux-x86_64.tar.gz" .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: ${{ env.EXPORT_NAME }}-linux-x86_64.tar.gz
+
+  android:
+    name: Android
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.7
+    env:
+      # Opcionais: se existirem, gera também um APK assinado em modo release.
+      ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+      GODOT_ANDROID_KEYSTORE_RELEASE_USER: ${{ secrets.ANDROID_KEYSTORE_USER }}
+      GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/preparar-godot
+        with:
+          android: "true"
+      - name: Exportar APK (debug)
+        run: |
+          mkdir -v -p build/android
+          godot --headless --verbose --path . --export-debug "Android" "$(pwd)/build/android/${EXPORT_NAME}-debug.apk"
+      - name: Exportar APK (release assinado)
+        if: env.ANDROID_KEYSTORE_BASE64 != ''
+        run: |
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > "$HOME/release.keystore"
+          export GODOT_ANDROID_KEYSTORE_RELEASE_PATH="$HOME/release.keystore"
+          godot --headless --verbose --path . --export-release "Android" "$(pwd)/build/android/${EXPORT_NAME}-release.apk"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android
+          path: build/android
+
+  deploy-pages:
+    name: Publicar no GitHub Pages
+    needs: web
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: web
+          path: site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4
+
+  release:
+    name: Criar release
+    needs: [web, windows, linux, android]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: artefatos
+      - name: Empacotar
+        run: |
+          mkdir -p release
+          (cd artefatos/web && zip -qr "../../release/${EXPORT_NAME}-web.zip" .)
+          (cd artefatos/windows && zip -qr "../../release/${EXPORT_NAME}-windows.zip" .)
+          cp artefatos/linux/*.tar.gz release/
+          cp artefatos/android/*.apk release/
+          ls -la release
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: release/*
+          generate_release_notes: true
