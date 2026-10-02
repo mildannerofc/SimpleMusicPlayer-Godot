@@ -15,19 +15,80 @@ runs:
       run: |
         mkdir -p ~/.godot
         mkdir -p ~/.android
+        mkdir -p ~/.local/share/godot/export_templates
 
     - name: Download export templates (Godot 4.7)
       shell: bash
       run: |
-        echo "Godot export templates já estão no docker image barichello/godot-ci"
+        GODOT_VERSION="4.7"
+        TEMPLATES_DIR="$HOME/.local/share/godot/export_templates/${GODOT_VERSION}.stable"
+        
+        if [ ! -d "$TEMPLATES_DIR" ]; then
+          echo "📥 Baixando export templates Godot ${GODOT_VERSION}..."
+          mkdir -p "$TEMPLATES_DIR"
+          
+          # Download templates
+          cd /tmp
+          wget -q https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}-stable/Godot_v${GODOT_VERSION}-stable_export_templates.tpz
+          
+          # Extract
+          unzip -q Godot_v${GODOT_VERSION}-stable_export_templates.tpz
+          mv templates/* "$TEMPLATES_DIR/"
+          
+          # Cleanup
+          cd - > /dev/null
+          rm -rf /tmp/Godot_v${GODOT_VERSION}-stable_export_templates.tpz /tmp/templates
+          
+          echo "✅ Templates instalados em $TEMPLATES_DIR"
+        else
+          echo "✅ Templates já existem em $TEMPLATES_DIR"
+        fi
 
-    - name: Setup Android SDK (se necessário)
+    - name: Setup Android SDK e JDK (se necessário)
       if: inputs.android == 'true'
       shell: bash
       run: |
-        echo "Android SDK já está configurado no docker image barichello/godot-ci"
+        echo "📦 Configurando ambiente Android..."
+        
+        # Instalar OpenJDK 17
+        if ! command -v java &> /dev/null; then
+          echo "📥 Instalando OpenJDK 17..."
+          apt-get update -qq
+          apt-get install -y -qq openjdk-17-jdk > /dev/null 2>&1
+        fi
+        
+        # Configurar JAVA_HOME
+        export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which java))))
+        echo "JAVA_HOME: $JAVA_HOME"
+        
+        # Verificar Android SDK
+        if [ -z "$ANDROID_SDK_ROOT" ]; then
+          export ANDROID_SDK_ROOT="/android-sdk"
+        fi
+        
+        if [ -z "$ANDROID_HOME" ]; then
+          export ANDROID_HOME="/android-sdk"
+        fi
+        
+        echo "ANDROID_SDK_ROOT: $ANDROID_SDK_ROOT"
+        echo "ANDROID_HOME: $ANDROID_HOME"
+        
+        # Exportar variáveis para próximos steps
+        echo "JAVA_HOME=$JAVA_HOME" >> $GITHUB_ENV
+        echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+        echo "ANDROID_HOME=$ANDROID_HOME" >> $GITHUB_ENV
+        echo "PATH=$JAVA_HOME/bin:$PATH" >> $GITHUB_ENV
+        
+        echo "✅ Ambiente Android configurado"
 
     - name: Validar projeto Godot
       shell: bash
       run: |
-        ls -la project.godot || echo "⚠️  Aviso: arquivo project.godot não encontrado"
+        echo "🔍 Validando projeto Godot..."
+        if [ -f "project.godot" ]; then
+          echo "✅ Arquivo project.godot encontrado"
+          ls -lh project.godot
+        else
+          echo "❌ ERRO: arquivo project.godot não encontrado"
+          exit 1
+        fi
