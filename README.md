@@ -1,5 +1,6 @@
-# Simple Music Player
+![Uploading image.png…]()
 
+# Simple Music Player
 Um player de música simples feito no **Godot 4.7**, portado de um projeto do PenguinMod/Scratch (`Simple_Music_Player.pmp`).
 
 Tem botões de play, stop, loop, troca de faixa (anterior/próxima), o nome da música que entra deslizando e o Claudio, que espera parado ou dança enquanto a música toca.
