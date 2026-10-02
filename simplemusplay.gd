@@ -1,16 +1,11 @@
 extends Sprite2D
-## "Stage" do projeto Scratch (Simple Music Player).
-## Guarda as variáveis globais (SND, isPlaying?, isLooping?, MinPlay, MaxPlay, AutoPlay?),
-## toca o áudio e avisa os outros nós por sinais (no lugar dos "broadcasts" do Scratch).
 
-signal tocar_comecou                  # broadcast "playSnd"
-signal parou                          # broadcast "stopSnd"
-signal faixa_mudou(numero: int)       # broadcast "updateSnd"
-signal loop_mudou(ligado: bool)       # variável isLooping?
-signal estado_mudou(tocando: bool)    # variável isPlaying?
+signal tocar_comecou
+signal parou
+signal faixa_mudou(numero: int)
+signal loop_mudou(ligado: bool)
+signal estado_mudou(tocando: bool)
 
-# Para adicionar uma música: coloque o arquivo na pasta music/ e acrescente uma linha aqui.
-# MaxPlay passa a ser o tamanho desta lista (antes era 8 fixo, mas só havia 2 sons mapeados).
 const FAIXAS := [
 	{"nome": "CAVE", "arquivo": "res://music/cave.wav"},
 	{"nome": "GENOCIDE NIGHT REIMAGINED", "arquivo": "res://music/Genocide Night Reimagined.wav"},
@@ -19,14 +14,14 @@ const FAIXAS := [
 	{"nome": "RED OPERATION", "arquivo": "res://music/Red Operation.mp3"},
 ]
 
-@export var auto_play := false        # AutoPlay?
-@export var min_play := 1             # MinPlay
-@export var espera_autoplay := 0.22   # "espere 0.22 seg" depois do fade
+@export var auto_play := false
+@export var min_play := 1
+@export var espera_autoplay := 0.22
 
-var snd := 1                          # SND
-var max_play := FAIXAS.size()         # MaxPlay
-var is_looping := false               # isLooping?
-var is_playing := false               # isPlaying?
+var snd := 1
+var max_play := FAIXAS.size()
+var is_looping := false
+var is_playing := false
 
 var _player: AudioStreamPlayer
 var _sons: Array = []
@@ -36,6 +31,11 @@ func _ready() -> void:
 	_player = AudioStreamPlayer.new()
 	add_child(_player)
 	_player.finished.connect(_ao_terminar_faixa)
+
+	# Monitora se a janela mudar de tamanho para ajustar a posição em tempo real
+	get_tree().root.size_changed.connect(_centralizar_na_tela)
+	# Executa a primeira centralização ao iniciar
+	_centralizar_na_tela()
 
 	for faixa in FAIXAS:
 		var arquivo: String = faixa["arquivo"]
@@ -47,7 +47,6 @@ func _ready() -> void:
 
 	snd = clampi(snd, min_play, max_play)
 
-	# Bandeira verde: o Fade roda e, quando termina, o Scratch envia "Sound Test".
 	var fade = get_node_or_null("Blackfadein")
 	if fade:
 		fade.terminou.connect(_ao_terminar_fade)
@@ -58,37 +57,51 @@ func nome_da_faixa(numero: int) -> String:
 	return FAIXAS[clampi(numero, 1, FAIXAS.size()) - 1]["nome"]
 
 
+# --- Função de Centralização Automática ---------------------------------------
+func _centralizar_na_tela() -> void:
+	# Obtém o tamanho atual da área de renderização do jogo
+	var tamanho_da_tela = get_viewport_rect().size
+	
+	# Move este nó para o centro. Se os elementos internos foram desenhados
+	# a partir do canto superior esquerdo do Scratch, subtraímos metade da largura original 
+	# projetada (ex: se seu projeto original tinha 480x360 ou 640x480).
+	# Caso os elementos já estejam agrupados corretamente, a linha abaixo resolve:
+	global_position = tamanho_da_tela / 2
+	
+	# NOTA: Se os botões ficarem deslocados após aplicar o código acima, 
+	# substitua a linha do 'global_position' por esta para compensar o desvio do Scratch:
+	# global_position = (tamanho_da_tela / 2) - Vector2(240, 180) # Troque 240 e 180 por metade da sua resolução base
+
+
 # --- ações chamadas pelos botões ---------------------------------------------
 
-func tocar() -> void:                 # "quando eu receber playSnd"
-	_player.stop()                    # "pare todos os sons"
+func tocar() -> void:
+	_player.stop()
 	_definir_tocando(true)
 	tocar_comecou.emit()
 	_tocar_faixa_atual()
 
 
-func parar() -> void:                 # "quando eu receber stopSnd"
+func parar() -> void:
 	_player.stop()
 	_definir_tocando(false)
 	parou.emit()
 
 
-func proxima() -> void:               # botão Play2 (seta direita)
+func proxima() -> void:
 	snd = min_play if snd + 1 > max_play else snd + 1
 	faixa_mudou.emit(snd)
 
 
-func anterior() -> void:              # botão Play3 (seta esquerda)
+func anterior() -> void:
 	snd = max_play if snd - 1 < min_play else snd - 1
 	faixa_mudou.emit(snd)
 
 
-func alternar_loop() -> void:         # botão Loop
+func alternar_loop() -> void:
 	is_looping = not is_looping
 	loop_mudou.emit(is_looping)
 
-
-# --- internos ---------------------------------------------------------------
 
 func _tocar_faixa_atual() -> void:
 	var som = _sons[snd - 1]
@@ -104,7 +117,7 @@ func _ao_terminar_faixa() -> void:
 	if not is_playing:
 		return
 	if is_looping:
-		_tocar_faixa_atual()          # relê SND: com loop ligado, trocar de faixa vale na próxima volta
+		_tocar_faixa_atual()
 	else:
 		_definir_tocando(false)
 
